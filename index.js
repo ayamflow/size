@@ -7,16 +7,16 @@ var EVENT_NAME = 'resize';
 var emitter = new Emitter();
 var debounceTime;
 var debounced;
-var isiOS = (/ip(hone|od|ad)/i).test(window.navigator.userAgent.toLowerCase()) && !window.MSStream;
 
 var size = module.exports = {
     width: 0,
     height: 0,
-    hasBar: false,
-    isLandscape: false,
 
     addListener: function(listener, context) {
         emitter.on(EVENT_NAME, listener, context);
+        setTimeout(function() {
+            listener.call(context, size.width, size.height)
+        })
     },
 
     removeListener: function(listener, context) {
@@ -37,14 +37,8 @@ var size = module.exports = {
 };
 
 function onEvent() {
-    if (isiOS) {
-        size.hasBar = size.width > size.height && size.height > window.innerHeight;
-    }
-
     size.width = window.innerWidth;
     size.height = window.innerHeight;
-
-    size.isLandscape = size.width > size.height;
     emitter.emit(EVENT_NAME, size.width, size.height);
 }
 

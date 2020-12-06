@@ -3,15 +3,15 @@ size.js
 
 Small util to centralize and debounce window 'resize' events.
 
-- Avoid accessing a global object (window)
+- No need for you to access the global object (window)
 - Avoid triggering [unnecessary repaint/reflow](https://gist.github.com/paulirish/5d52fb081b3570c81e3a)
-- Avoid locking the UI by only dispatching one event
+- Avoid locking the UI by debouncing the event (only one event per resize action)
 
 
 ## Install
 
 ```
-npm install watsondg/size -S
+npm install ayamflow/size -S
 ```
 
 ## Usage
@@ -29,7 +29,7 @@ console.log(size.width);
 
 ### addListener(handler[, context])
 
-Bind a function to the resize event
+Bind a function to the resize event and immediately call the handler with the current width/height
 * `handler` - the function to call after a resize event
 * `context` - (OPTIONAL) - the context to bind the event callback to
 
@@ -42,7 +42,7 @@ Unbind a function to the resize event
 
 ### bind(options)
 
-Enable the singleton by listen to the window `onresize` event.
+Enable the singleton by listening to the window `onresize` event. This is called automatically on require/import.
 * `options` - a hash containing configurable options:
 - `debounceTime`: debounce delay for the window `onresize` event. Defaults is 150.
 
@@ -54,9 +54,6 @@ Unbind the window `onresize` event.
 
 ### width
 ### height
-### isLandscape
-### hasBar (experimental)
-true on mobile if the browser bar is shown on iOS.
 
 ## License
 MIT.
